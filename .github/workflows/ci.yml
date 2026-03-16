@@ -53,5 +53,5 @@ jobs:
 
       - name: Check dashboard syntax
         run: |
-          python -c "import py_compile; py_compile.compile('streamlit_app.py', doraise=True)"
+          python -c "import py_compile; py_compile.compile('app/streamlit_app.py', doraise=True)"
           echo "Dashboard syntax OK"
