@@ -52,7 +52,7 @@ ml_dtypes==0.5.4
 namex==0.1.0
 narwhals==2.15.0
 nest-asyncio==1.6.0
-numpy==2.4.1
+numpy
 nvidia-cublas-cu12==12.9.1.4
 nvidia-cuda-cupti-cu12==12.9.79
 nvidia-cuda-nvcc-cu12==12.9.86
