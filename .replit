@@ -1,14 +1,47 @@
 run = "streamlit run streamlit_app_dashboard.py --server.port 8080 --server.address 0.0.0.0 --server.headless true"
+modules = ["python-3.11"]
 
 [env]
 PROJ_ROOT = "/home/runner/${REPL_SLUG}"
 
 [nix]
 channel = "stable-23_11"
+packages = ["arrow-cpp", "c-ares", "cacert", "cairo", "cargo", "chromedriver", "ffmpeg-full", "freetype", "gdb", "ghostscript", "gitFull", "glibcLocales", "gobject-introspection", "grpc", "gtk3", "hdf5", "lcms2", "libcxx", "libiconv", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "openssh", "openssl", "pkg-config", "qhull", "rustc", "tcl", "tk", "xsimd", "zeromq", "zlib"]
 
 [deployment]
-run = ["sh", "-c", "streamlit run streamlit_app_dashboard.py --server.port 8080 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false"]
+run = ["sh", "-c", "streamlit run app_dashboard/streamlit_app.py --server.port 8080 --server.address 0.0.0.0 --server.headless true --server.enableCORS false --server.enableXsrfProtection false"]
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
 
 [[ports]]
 localPort = 8080
 externalPort = 80
+
+[agent]
+expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "FF"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "FF"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash start.sh"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
