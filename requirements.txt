@@ -39,7 +39,7 @@ jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 jupyter_client==8.8.0
 jupyter_core==5.9.1
-keras==3.13.1
+keras
 kiwisolver==1.4.9
 libclang==18.1.1
 Markdown==3.10
@@ -72,10 +72,10 @@ packaging==25.0
 pandas==2.3.3
 parso==0.8.5
 pexpect==4.9.0
-pillow==12.1.0
+pillow==12.1.1
 platformdirs==4.5.1
 prompt_toolkit==3.0.52
-protobuf==6.33.4
+protobuf==6.33.5
 psutil==7.2.1
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -108,7 +108,7 @@ tensorboard-data-server==0.7.2
 tensorflow==2.20.0
 termcolor==3.3.0
 toml==0.10.2
-tornado==6.5.4
+tornado==6.5.5
 traitlets==5.14.3
 typing-inspection==0.4.2
 typing_extensions==4.15.0
@@ -117,5 +117,5 @@ urllib3==2.6.3
 uvicorn==0.40.0
 watchdog==6.0.0
 wcwidth==0.2.14
-Werkzeug==3.1.5
+Werkzeug==3.1.6
 wrapt==2.0.1
