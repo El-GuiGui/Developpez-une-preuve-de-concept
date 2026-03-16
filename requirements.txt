@@ -108,7 +108,7 @@ tensorboard-data-server==0.7.2
 tensorflow==2.20.0
 termcolor==3.3.0
 toml==0.10.2
-tornado==6.5.4
+tornado==6.5.5
 traitlets==5.14.3
 typing-inspection==0.4.2
 typing_extensions==4.15.0
