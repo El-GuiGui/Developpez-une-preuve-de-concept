@@ -1,0 +1,9 @@
+{
+  "run_name": "CONVNEXT_TINY_FT_256x256_b4_aug1_ce_dice",
+  "best_path": "/home/ui/PROJ9/out/experiments/CONVNEXT_TINY_FT_256x256_b4_aug1_ce_dice/best.keras",
+  "train_time_sec": 19912.9181497097,
+  "val_loss": 0.3277876079082489,
+  "val_mIoU": 0.773752748966217,
+  "test_loss": 0.28853684663772583,
+  "test_mIoU": 0.7926158905029297
+}

@@ -1,0 +1,238 @@
+{
+  "class_names": [
+    "void",
+    "flat",
+    "construction",
+    "object",
+    "nature",
+    "sky",
+    "human",
+    "vehicle"
+  ],
+  "n_classes": 8,
+  "size_hw": [
+    256,
+    256
+  ],
+  "train": {
+    "pixel_counts": [
+      14388858,
+      62430525,
+      34167870,
+      2739217,
+      23338711,
+      5559523,
+      1835810,
+      11515166
+    ],
+    "presence_counts": [
+      2380,
+      2380,
+      2374,
+      2361,
+      2313,
+      2159,
+      1999,
+      2349
+    ],
+    "n_images": 2380
+  },
+  "val": {
+    "pixel_counts": [
+      3407515,
+      13049383,
+      6724278,
+      671393,
+      5195917,
+      962931,
+      433229,
+      2323354
+    ],
+    "presence_counts": [
+      500,
+      500,
+      497,
+      493,
+      486,
+      442,
+      441,
+      490
+    ],
+    "n_images": 500
+  },
+  "test": {
+    "pixel_counts": [
+      3533160,
+      15518884,
+      8458870,
+      698645,
+      6115124,
+      1391256,
+      497394,
+      2780587
+    ],
+    "presence_counts": [
+      595,
+      595,
+      592,
+      592,
+      585,
+      524,
+      499,
+      587
+    ],
+    "n_images": 595
+  },
+  "samples": [
+    {
+      "img": "train_000_img.png",
+      "mask": "train_000_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_001_img.png",
+      "mask": "train_001_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_002_img.png",
+      "mask": "train_002_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_003_img.png",
+      "mask": "train_003_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_004_img.png",
+      "mask": "train_004_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_005_img.png",
+      "mask": "train_005_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_006_img.png",
+      "mask": "train_006_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_007_img.png",
+      "mask": "train_007_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_008_img.png",
+      "mask": "train_008_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "train_009_img.png",
+      "mask": "train_009_mask.png",
+      "split": "train"
+    },
+    {
+      "img": "val_000_img.png",
+      "mask": "val_000_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_001_img.png",
+      "mask": "val_001_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_002_img.png",
+      "mask": "val_002_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_003_img.png",
+      "mask": "val_003_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_004_img.png",
+      "mask": "val_004_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_005_img.png",
+      "mask": "val_005_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_006_img.png",
+      "mask": "val_006_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_007_img.png",
+      "mask": "val_007_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_008_img.png",
+      "mask": "val_008_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "val_009_img.png",
+      "mask": "val_009_mask.png",
+      "split": "val"
+    },
+    {
+      "img": "test_000_img.png",
+      "mask": "test_000_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_001_img.png",
+      "mask": "test_001_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_002_img.png",
+      "mask": "test_002_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_003_img.png",
+      "mask": "test_003_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_004_img.png",
+      "mask": "test_004_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_005_img.png",
+      "mask": "test_005_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_006_img.png",
+      "mask": "test_006_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_007_img.png",
+      "mask": "test_007_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_008_img.png",
+      "mask": "test_008_mask.png",
+      "split": "test"
+    },
+    {
+      "img": "test_009_img.png",
+      "mask": "test_009_mask.png",
+      "split": "test"
+    }
+  ]
+}

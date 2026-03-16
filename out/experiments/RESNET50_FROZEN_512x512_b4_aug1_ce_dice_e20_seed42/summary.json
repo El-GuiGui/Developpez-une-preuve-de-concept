@@ -1,0 +1,23 @@
+{
+  "run_name": "RESNET50_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/RESNET50_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 3474.777528524399,
+  "val_loss": 0.31981438398361206,
+  "val_mIoU": 0.7753569483757019,
+  "test_loss": 0.2883126735687256,
+  "test_mIoU": 0.789840042591095,
+  "params": {
+    "tag": "RESNET50",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": false
+  }
+}

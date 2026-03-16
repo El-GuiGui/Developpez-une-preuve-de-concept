@@ -1,0 +1,23 @@
+{
+  "run_name": "VGG16_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/VGG16_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 4839.3196132183075,
+  "val_loss": 0.40971168875694275,
+  "val_mIoU": 0.7289785146713257,
+  "test_loss": 0.36224687099456787,
+  "test_mIoU": 0.7487771511077881,
+  "params": {
+    "tag": "VGG16",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": false
+  }
+}

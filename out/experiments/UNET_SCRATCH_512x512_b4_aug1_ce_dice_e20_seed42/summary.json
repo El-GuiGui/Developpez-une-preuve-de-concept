@@ -1,0 +1,23 @@
+{
+  "run_name": "UNET_SCRATCH_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/UNET_SCRATCH_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 4372.457033157349,
+  "val_loss": 0.38748079538345337,
+  "val_mIoU": 0.7364894151687622,
+  "test_loss": 0.3472789525985718,
+  "test_mIoU": 0.7538447380065918,
+  "params": {
+    "tag": "UNET_SCRATCH",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": null
+  }
+}

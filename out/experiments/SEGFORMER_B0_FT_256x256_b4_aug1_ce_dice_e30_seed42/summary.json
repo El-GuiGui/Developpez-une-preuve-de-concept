@@ -1,0 +1,21 @@
+{
+  "run_name": "SEGFORMER_B0_FT_256x256_b4_aug1_ce_dice_e30_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/SEGFORMER_B0_FT_256x256_b4_aug1_ce_dice_e30_seed42/best.keras",
+  "train_time_sec": 10785.388860702515,
+  "val_loss": 0.40631169080734253,
+  "val_mIoU": 0.7130504250526428,
+  "test_loss": 0.3648018538951874,
+  "test_mIoU": 0.7284059524536133,
+  "encoder_preset": "mit_b0_cityscapes_1024",
+  "trainable": true,
+  "size_hw": [
+    256,
+    256
+  ],
+  "batch": 4,
+  "epochs": 30,
+  "aug": true,
+  "loss_name": "ce_dice",
+  "seed": 42,
+  "lr": 0.0005
+}

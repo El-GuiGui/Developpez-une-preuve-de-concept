@@ -1,0 +1,9 @@
+{
+  "run_name": "VGG16_FROZEN_256x256_b4_aug1_ce_dice",
+  "best_path": "/home/ui/PROJ8/out/experiments/VGG16_FROZEN_256x256_b4_aug1_ce_dice/best.keras",
+  "train_time_sec": 12095.548187732697,
+  "val_loss": 0.4287886917591095,
+  "val_mIoU": 0.7170036435127258,
+  "test_loss": 0.37529608607292175,
+  "test_mIoU": 0.739793062210083
+}

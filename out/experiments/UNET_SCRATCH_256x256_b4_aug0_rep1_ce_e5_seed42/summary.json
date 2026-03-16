@@ -1,0 +1,9 @@
+{
+  "run_name": "UNET_SCRATCH_256x256_b4_aug0_rep1_ce_e5_seed42",
+  "best_path": "/home/ui/PROJ8/out/experiments/UNET_SCRATCH_256x256_b4_aug0_rep1_ce_e5_seed42.keras",
+  "train_time_sec": 1466.4445674419403,
+  "val_loss": 0.3452959954738617,
+  "val_mIoU": 0.64772629737854,
+  "test_loss": 0.31434258818626404,
+  "test_mIoU": 0.6710139513015747
+}

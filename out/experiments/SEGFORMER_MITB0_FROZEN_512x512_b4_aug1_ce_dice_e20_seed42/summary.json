@@ -1,0 +1,23 @@
+{
+  "run_name": "SEGFORMER_MITB0_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/SEGFORMER_MITB0_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 4362.107657670975,
+  "val_loss": 0.29862603545188904,
+  "val_mIoU": 0.7804833054542542,
+  "test_loss": 0.2622423470020294,
+  "test_mIoU": 0.7951079607009888,
+  "params": {
+    "tag": "SEGFORMER_MITB0",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": false
+  }
+}

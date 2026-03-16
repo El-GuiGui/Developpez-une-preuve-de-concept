@@ -1,0 +1,23 @@
+{
+  "run_name": "VGG16_FT_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/VGG16_FT_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 6715.994060516357,
+  "val_loss": 0.29462549090385437,
+  "val_mIoU": 0.7970172762870789,
+  "test_loss": 0.26263993978500366,
+  "test_mIoU": 0.8114193677902222,
+  "params": {
+    "tag": "VGG16",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": true
+  }
+}

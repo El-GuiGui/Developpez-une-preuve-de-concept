@@ -1,0 +1,23 @@
+{
+  "run_name": "CONVNEXT_TINY_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42",
+  "best_path": "/home/ui/PROJ9/out/experiments/CONVNEXT_TINY_FROZEN_512x512_b4_aug1_ce_dice_e20_seed42/best.keras",
+  "train_time_sec": 4112.461127758026,
+  "val_loss": 0.2895760238170624,
+  "val_mIoU": 0.7965244054794312,
+  "test_loss": 0.26128390431404114,
+  "test_mIoU": 0.8088800311088562,
+  "params": {
+    "tag": "CONVNEXT_TINY",
+    "size_hw": [
+      512,
+      512
+    ],
+    "batch": 4,
+    "epochs": 20,
+    "aug": true,
+    "aug_repeats": 1,
+    "loss_name": "ce_dice",
+    "seed": 42,
+    "trainable": false
+  }
+}
