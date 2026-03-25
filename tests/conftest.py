@@ -1,4 +1,3 @@
-"""conftest.py — Configuration pytest."""
 import sys
 from pathlib import Path
 

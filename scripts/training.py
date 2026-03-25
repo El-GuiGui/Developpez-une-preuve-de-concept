@@ -1,14 +1,3 @@
-"""
-training.py — PROJ9
-Fonctions d'entraînement pour tous les modèles Keras.
-Structure de sortie unifiée : out/experiments/<run_name>/
-  ├── best.keras
-  ├── summary.json
-  ├── history.json
-  ├── loss.png
-  ├── miou.png
-  └── pred_grid.png
-"""
 from __future__ import annotations
 
 import gc
@@ -32,12 +21,8 @@ from .losses_metrics import MeanIoUArgmax, dice_loss_sparse
 from .preprocessing import N_CLASSES, IGNORE_LABEL, CATEGORY_NAMES, colorize_groups, overlay, PALETTE
 
 
-# ─────────────────────────────────────────────
-# Utilitaires communs
-# ─────────────────────────────────────────────
 
 def reset_between_runs(seed: int = 42):
-    """Libère session Keras et fixe les seeds."""
     K.clear_session()
     gc.collect()
     tf.random.set_seed(seed)
@@ -45,7 +30,6 @@ def reset_between_runs(seed: int = 42):
 
 
 def compile_model(model, loss_name: str = "ce", lr: float = 1e-3):
-    """Compile avec Adam + loss CE ou CE+Dice + mIoU."""
     if loss_name == "ce":
         loss = tf.keras.losses.SparseCategoricalCrossentropy()
     elif loss_name == "ce_dice":
@@ -69,15 +53,10 @@ def compile_model(model, loss_name: str = "ce", lr: float = 1e-3):
     return model
 
 
-# ─────────────────────────────────────────────
-# Sauvegarde des artefacts d'un run
-# ─────────────────────────────────────────────
-
 def _plot_history(history: dict, run_dir: Path):
     """Génère loss.png et miou.png dans run_dir."""
     epochs = range(1, len(history.get("loss", [])) + 1)
 
-    # --- loss ---
     if "loss" in history and "val_loss" in history:
         fig, ax = plt.subplots(figsize=(8, 4))
         ax.plot(epochs, history["loss"],     label="train loss", color="#2196F3")
@@ -89,7 +68,6 @@ def _plot_history(history: dict, run_dir: Path):
         fig.savefig(run_dir / "loss.png", dpi=100)
         plt.close(fig)
 
-    # --- mIoU ---
     miou_key = "mIoU" if "mIoU" in history else "miou"
     vmiou_key = "val_mIoU" if "val_mIoU" in history else "val_miou"
     if miou_key in history and vmiou_key in history:
@@ -105,7 +83,6 @@ def _plot_history(history: dict, run_dir: Path):
 
 
 def _plot_pred_grid(model, test_seq: CityscapesSequence, run_dir: Path, n: int = 4):
-    """Génère pred_grid.png avec n exemples (image | GT | prédiction)."""
     try:
         X_batch, y_batch = test_seq[0]
         X_batch = X_batch[:n]
@@ -152,7 +129,6 @@ def _save_run_artifacts(
     model,
     test_seq: CityscapesSequence,
 ):
-    """Sauvegarde tous les artefacts du run dans run_dir."""
     run_dir.mkdir(parents=True, exist_ok=True)
 
     # JSON
@@ -169,11 +145,10 @@ def _save_run_artifacts(
     _plot_history(history, run_dir)
     _plot_pred_grid(model, test_seq, run_dir)
 
-    print(f"\n✅ Artefacts sauvegardés dans: {run_dir}")
+    print(f"\n Artefacts sauvegardés dans: {run_dir}")
 
 
 def _make_sequences(df_idx, base_dir, size_hw, batch, aug, aug_repeats, seed):
-    """Crée les 3 séquences train / val / test."""
     train_df = df_idx[df_idx["split_final"] == "train"].copy()
     val_df   = df_idx[df_idx["split_final"] == "val"].copy()
     test_df  = df_idx[df_idx["split_final"] == "test"].copy()
@@ -199,7 +174,6 @@ def _make_sequences(df_idx, base_dir, size_hw, batch, aug, aug_repeats, seed):
 
 
 def _standard_callbacks(best_path: str, patience: int):
-    """Retourne les callbacks standard (Checkpoint, EarlyStopping, ReduceLR)."""
     return [
         callbacks.ModelCheckpoint(
             best_path, monitor="val_mIoU", mode="max", save_best_only=True,
@@ -214,10 +188,6 @@ def _standard_callbacks(best_path: str, patience: int):
         ),
     ]
 
-
-# ─────────────────────────────────────────────
-# Run functions
-# ─────────────────────────────────────────────
 
 def run_unet_scratch(
     df_idx: pd.DataFrame,
@@ -447,10 +417,6 @@ def run_unet_resnet50(
     return {**summary, "best_path": best_path, "history": history, "run_dir": str(run_dir)}
 
 
-# ─────────────────────────────────────────────
-# NOUVEAU : ConvNeXt Tiny (PROJ9)
-# ─────────────────────────────────────────────
-
 def run_unet_convnext(
     df_idx: pd.DataFrame,
     base_dir,
@@ -465,11 +431,6 @@ def run_unet_convnext(
     seed: int = 42,
     trainable: bool = False,
 ):
-    """
-    UNet avec encodeur ConvNeXt-Tiny pré-entraîné sur ImageNet.
-    Dropout convolutif moderne, dépthwise separable convolutions.
-    Architecture de référence: A ConvNet for the 2020s (Liu et al., 2022).
-    """
     out_dir = Path(out_dir)
     reset_between_runs(seed)
 
@@ -506,7 +467,6 @@ def run_unet_convnext(
     hist = model.fit(train_seq, validation_data=val_seq, epochs=epochs, callbacks=cb, verbose=1)
     t_train = time.time() - t0
 
-    # Charger le meilleur poids
     from .models import ConvNeXtPreprocess
     best_model = tf.keras.models.load_model(
         best_path,
@@ -548,9 +508,6 @@ def run_unet_convnext(
     return {**summary, "best_path": best_path, "history": history, "run_dir": str(run_dir)}
 
 
-# ─────────────────────────────────────────────
-# NOUVEAU : SegFormer MiT-B0 (PROJ9)
-# ─────────────────────────────────────────────
 
 def run_segformer(
     df_idx: pd.DataFrame,
@@ -569,13 +526,6 @@ def run_segformer(
     projection_filters: int = 256,
     lr: float = 6e-5,
 ):
-    """
-    SegFormer avec encodeur MiT-B0 (Mix Transformer).
-    Architecture de référence: SegFormer (Xie et al., NeurIPS 2021).
-    - Encodeur: Mix Transformer hiérarchique (4 stages)
-    - Décodeur: All-MLP léger (projection_filters)
-    - LR recommandé pour transformers: 6e-5 (plus faible que CNN)
-    """
     out_dir = Path(out_dir)
     reset_between_runs(seed)
 

@@ -131,7 +131,7 @@ def unet_resnet50(
     return Model(inputs, outputs, name="unet_resnet50")
 
 
-### Convnext
+# Convnext
 
 
 from tensorflow.keras import layers, Model
@@ -216,12 +216,8 @@ def unet_convnext_tiny(
     return Model(inputs, outputs, name="unet_convnext_tiny")
 
 
-### SegFormer
+# SegFormer
 import keras_hub
-
-# =========================
-# SegFormer (MiT-B0)
-# =========================
 
 IMAGENET_MEAN = tf.constant([0.485, 0.456, 0.406], dtype=tf.float32)
 IMAGENET_STD  = tf.constant([0.229, 0.224, 0.225], dtype=tf.float32)
@@ -229,7 +225,6 @@ IMAGENET_STD  = tf.constant([0.229, 0.224, 0.225], dtype=tf.float32)
 
 @tf.keras.utils.register_keras_serializable(package="proj8")
 class SegFormerPreprocess(layers.Layer):
-    """Input attendu: float32 [0..1] (comme ton CityscapesSequence)."""
     def call(self, inputs):
         x = tf.cast(inputs, tf.float32)
         return (x - IMAGENET_MEAN) / IMAGENET_STD
@@ -242,27 +237,17 @@ def segformer_mitb0(
     trainable=False,
     projection_filters=256,
 ):
-    """
-    Retourne un modèle Keras avec sortie softmax (B,H,W,n_classes),
-    compatible avec ton compile_model() (CE from_logits=False + Dice).
-    - trainable=False : encoder MiT gelé, head SegFormer entraînable.
-    - trainable=True  : encoder MiT fine-tune.
-    """
-
-    # Encoder MiT pré-entraîné
     encoder = keras_hub.models.MiTBackbone.from_preset(
         encoder_preset,
         image_shape=input_shape,
     )
     encoder.trainable = bool(trainable)
 
-    # Backbone SegFormer (fusion multi-échelles)
     backbone = keras_hub.models.SegFormerBackbone(
         image_encoder=encoder,
         projection_filters=projection_filters,
     )
 
-    # Head SegFormer (retourne logits/probas selon implémentation)
     segmenter = keras_hub.models.SegFormerImageSegmenter(
         backbone=backbone,
         num_classes=n_classes,
@@ -274,13 +259,10 @@ def segformer_mitb0(
 
     y = segmenter(x)
 
-    # Sécurise la taille (au cas où le preset sort H/4 ou autre)
-    # -> on resize AVANT softmax pour rester correct si y est logits.
     if (y.shape[1] is not None and y.shape[2] is not None and
         (y.shape[1] != input_shape[0] or y.shape[2] != input_shape[1])):
         y = layers.Resizing(input_shape[0], input_shape[1], interpolation="bilinear")(y)
 
-    # Sécurise la proba pour ton CE (from_logits=False)
     y = layers.Softmax(axis=-1, name="probs")(y)
 
     return Model(inp, y, name="segformer_mitb0")

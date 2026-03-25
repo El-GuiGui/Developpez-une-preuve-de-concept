@@ -53,7 +53,7 @@ ensure_dirs()
 
 PLOTLY_COLORS = px.colors.qualitative.Safe
 
-# Couleurs Plotly par classe, coherentes avec la palette des masques
+# Couleurs Plotly par classe
 CLASS_COLOR_MAP = {
     "void":         "rgb(0, 0, 0)",
     "flat":         "rgb(128, 64, 128)",

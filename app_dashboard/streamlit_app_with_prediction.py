@@ -1,5 +1,4 @@
 """
-streamlit_app_dashboard.py — PROJ9
 Dashboard Streamlit de segmentation sémantique Cityscapes (8 classes).
 
 Pages :
@@ -13,7 +12,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-# ── Ajout du répertoire racine au path ──────────────────────────────
+# Ajout du répertoire racine au path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -31,7 +30,7 @@ from PIL import Image, ImageOps, ImageFilter
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-# ── Imports projet ──────────────────────────────────────────────────
+# Imports projet
 from scripts.config import ensure_dirs, resolve_split_csv, CITYSCAPES_DIR, EXP_DIR
 from scripts.preprocessing import (
     load_rgb,
@@ -46,7 +45,7 @@ from scripts.preprocessing import (
 )
 from scripts.augmentations import make_train_aug
 
-# ── Imports conditionnels (Keras / PyTorch) ─────────────────────────
+# Imports conditionnels (Keras / PyTorch)
 TF_AVAILABLE = False
 TORCH_AVAILABLE = False
 
@@ -64,7 +63,7 @@ except ImportError:
     pass
 
 
-#                       CONFIGURATION PAGE
+# CONFIGURATION PAGE
 
 st.set_page_config(
     page_title="Dashboard Segmentation — Cityscapes 8 classes",
@@ -75,12 +74,10 @@ st.set_page_config(
 
 ensure_dirs()
 
-# ── Palette colorblind-friendly pour graphiques encodeurs/modèles ────
+# Palette colorblind-friendly pour graphiques encodeurs/modèles
 PLOTLY_COLORS = px.colors.qualitative.Safe
 
-# ── Couleurs par CLASSE : identiques à PALETTE (légende sidebar) ────
-# Utilisé quand un graphique affiche les 8 classes Cityscapes.
-# Garantit la cohérence visuelle avec la légende et les masques.
+# Couleurs par CLASSE
 CLASS_COLOR_MAP = {
     "void":         "rgb(0, 0, 0)",
     "flat":         "rgb(128, 64, 128)",
@@ -93,7 +90,7 @@ CLASS_COLOR_MAP = {
 }
 
 
-#                       HELPERS – DONNÉES / CHEMINS
+# HELPERS – DONNÉES / CHEMINS
 
 def resolve_path(row, col_abs: str, col_rel: str) -> str:
     """Résout le chemin absolu ou relatif d'une image/masque."""
@@ -117,7 +114,7 @@ def get_split_dfs(df: pd.DataFrame):
 
 
 
-#                       HELPERS – EXPERIMENTS INDEX
+# HELPERS – EXPERIMENTS INDEX
 
 def _safe_read_json(p: Path):
     try:
@@ -376,7 +373,7 @@ def load_runs_index(exp_dir: str) -> pd.DataFrame:
 
 
 
-#                       HELPERS – MODÈLES / PRÉDICTION
+# HELPERS – MODÈLES / PRÉDICTION
 
 @st.cache_resource
 def load_keras_model(model_path: str):
@@ -389,7 +386,7 @@ def load_keras_model(model_path: str):
         "MeanIoUArgmax": MeanIoUArgmax,
         "dice_loss_sparse": dice_loss_sparse,
     }
-    # Ajoute les couches de preprocessing custom si disponibles
+    # Ajoute les couches de preprocessing custom si dispo
     try:
         from scripts.models import ResNet50Preprocess
         custom_objects["ResNet50Preprocess"] = ResNet50Preprocess
@@ -480,7 +477,7 @@ def predict_pytorch(img: Image.Image, model_path: str, size_hw=(256, 256), alpha
 
 
 
-#                       HELPERS – EDA
+# HELPERS – EDA
 
 @st.cache_data
 def compute_pixel_counts(df_split: pd.DataFrame, n_samples: int,
@@ -537,7 +534,7 @@ def apply_albu_preview(img_pil, mask_pil, aug, size_hw=(256, 256), seed=0):
 
 
 
-#                       COMPOSANT – LÉGENDE PALETTE
+# COMPOSANT – LÉGENDE PALETTE
 
 def render_palette_legend():
     """Affiche une légende des 8 classes avec couleurs dans la sidebar."""
@@ -557,7 +554,7 @@ def render_palette_legend():
 
 
 
-#                       COMPOSANT – ACCESSIBILITÉ WCAG
+# COMPOSANT – ACCESSIBILITÉ WCAG
 
 # Motifs de hachures Plotly (un par classe, pour ne pas dépendre de la couleur seule)
 # WCAG 1.4.1 : "La couleur n'est pas le seul moyen visuel de transmettre l'info"
@@ -712,16 +709,10 @@ def _get_wcag_mode() -> bool:
 
 
 def make_accessible_bar(df, x, y, title, text_col=None, color_col=None):
-    """
-    Bar chart Plotly accessible.
-    - Si color_col="class_name" → utilise les couleurs de la palette Cityscapes
-    - Sinon → utilise la palette Plotly Safe (pour encodeurs, modèles, etc.)
-    - Mode WCAG : ajoute hachures + bordures + palette haut contraste
-    """
     wcag = _get_wcag_mode()
     is_class = (color_col == "class_name")
 
-    # Choisir la bonne palette
+    # Choisi la bonne palette
     if is_class:
         cmap = HIGH_CONTRAST_CLASS_MAP if wcag else CLASS_COLOR_MAP
         fig = px.bar(
@@ -803,7 +794,7 @@ def render_chart_alt_text(description: str):
 
 
 
-#                       PAGE 1 — EDA
+# PAGE 1 — EDA
 
 def render_eda(train_df, val_df, test_df, size_hw, alpha):
     st.title("EDA — Cityscapes (8 classes)")
@@ -814,7 +805,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
     c2.metric("Val", len(val_df))
     c3.metric("Test", len(test_df))
 
-    # ── Exemples d'images ───────────────────────────────────────────
+    # Exemples d'images
     st.subheader("Exemples d'images + masques (remap 8 classes)")
     split_choice = st.selectbox(
         "Split", ["train", "val", "test"], index=2, key="eda_split",
@@ -841,7 +832,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
             st.image(m_rgb, caption=f"Masque 8 classes #{i}", use_container_width=True)
             st.image(ov, caption=f"Overlay #{i}", use_container_width=True)
 
-    # ── Comptages interactifs ───────────────────────────────────────
+    # Comptages interactifs
     st.subheader("Comptages interactifs — pixels par classe")
     n_samples = st.slider(
         "Échantillon (nb masques)", 50, 1500, 200, 50, key="eda_nsamples",
@@ -864,7 +855,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
     )
     st.dataframe(counts_df, use_container_width=True, hide_index=True)
 
-    # ── Présence des classes ────────────────────────────────────────
+    # Présence des classes
     st.subheader("Présence des classes — images contenant la classe")
     presence_df = compute_presence_counts(df_split, n_samples=n_samples, size_hw=size_hw, seed=int(seed))
     fig_pr = make_accessible_bar(
@@ -881,7 +872,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
     )
     st.dataframe(presence_df, use_container_width=True, hide_index=True)
 
-    # ── Transformations ─────────────────────────────────────────────
+    # Transformations
     st.subheader("Transformations — exemples (equalisation, floutage)")
     idx_t = st.slider("Index exemple", 0, max(0, len(df_split) - 1), 0, 1, key="eda_idx_transform")
     row = df_split.iloc[int(idx_t)]
@@ -899,7 +890,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
             caption="Flou gaussien (r=2)", use_container_width=True,
         )
 
-    # ── Aperçu augmentations ────────────────────────────────────────
+    # Aperçu augmentations
     st.subheader("Aperçu des augmentations (Albumentations)")
     show_aug = st.checkbox("Afficher les augmentations", value=True, key="eda_show_aug")
     if show_aug:
@@ -924,7 +915,7 @@ def render_eda(train_df, val_df, test_df, size_hw, alpha):
 
 
 
-#                       HELPER – IoU PAR CLASSE
+# HELPER – IoU PAR CLASSE
 
 def compute_iou_per_class(gt_mask: np.ndarray, pred_mask: np.ndarray) -> pd.DataFrame:
     """Calcule l'IoU par classe entre GT et prédiction (arrays 2D, 0..7)."""
@@ -1022,7 +1013,7 @@ def render_prediction_stats(pred_mask, gt_mask=None):
 
 
 
-#                       PAGE 2 — PRÉDICTION
+# PAGE 2 — PRÉDICTION
 
 def render_prediction(exp_df, test_df, size_hw, alpha):
     st.title("Prédiction — image + modèle")
@@ -1138,7 +1129,7 @@ def render_prediction(exp_df, test_df, size_hw, alpha):
 
 
 
-#                       PAGE 3 — COMPARAISON
+# PAGE 3 — COMPARAISON
 
 def render_comparison(exp_df: pd.DataFrame):
     st.title("Comparaison des runs")
@@ -1149,7 +1140,7 @@ def render_comparison(exp_df: pd.DataFrame):
 
     df = exp_df.copy()
 
-    # ── Filtres ─────────────────────────────────────────────────────
+    # Filtres
     c1, c2, c3 = st.columns(3)
     with c1:
         fams = sorted([x for x in df["model_family"].dropna().unique() if x])
@@ -1170,7 +1161,7 @@ def render_comparison(exp_df: pd.DataFrame):
 
     df = df.sort_values("score_main", ascending=False).reset_index(drop=True)
 
-    # ── Tableau ─────────────────────────────────────────────────────
+    # Tableau
     st.subheader("Tableau récapitulatif")
     default_cols = [
         "run_name", "model_family", "encoder", "train_mode",
@@ -1193,7 +1184,7 @@ def render_comparison(exp_df: pd.DataFrame):
         help="Export du tableau filtré au format CSV.",
     )
 
-    # ── Graphiques ──────────────────────────────────────────────────
+    # Graphiques
     st.subheader("Graphiques")
     c4, c5 = st.columns(2)
 
@@ -1239,7 +1230,7 @@ def render_comparison(exp_df: pd.DataFrame):
         else:
             st.info("Pas de points suffisants pour le scatter.")
 
-    # ── Résumé par groupe ───────────────────────────────────────────
+    # Résumé par groupe
     st.subheader("Résumé par groupe")
     group_col = st.selectbox("Grouper par", ["encoder", "model_family", "train_mode", "loss_name"], index=0, key="cmp_group")
     metric2 = st.selectbox("Métrique", ["score_main", "best_val_mIoU", "val_mIoU"], index=0, key="cmp_group_metric")
@@ -1273,13 +1264,13 @@ def render_comparison(exp_df: pd.DataFrame):
     else:
         st.info("Données insuffisantes pour le résumé par groupe.")
 
-    # ── Courbes d'entraînement (run sélectionné) ────────────────────
+    # Courbes d'entraînement (selon la run sélectionné)
     st.subheader("Détails d'un run")
     run_choice = st.selectbox("Run", df["run_name"].tolist(), index=0, key="cmp_run")
     row = df[df["run_name"] == run_choice].iloc[0]
     run_dir = Path(row["run_dir"])
 
-    # Charger le history.json pour tracer les courbes
+    # Charge le history.json pour tracer les courbes
     history = _safe_read_json(run_dir / "history.json")
     if history:
         tab_loss, tab_miou = st.tabs(["Courbe Loss", "Courbe mIoU"])
@@ -1354,7 +1345,7 @@ def render_comparison(exp_df: pd.DataFrame):
                 st.caption(f"{label} — non disponible")
 
 
-#                       PAGE 4 — À PROPOS
+# PAGE 4 — À PROPOS
 
 
 def render_about():
@@ -1412,7 +1403,7 @@ def render_about():
     *Le focus clavier (2.4.7) est actif en permanence, même sans le mode WCAG.*
     """)
 
-    # Légende palette complète
+    # Légende palette
     st.subheader("Palette des 8 classes")
 
     palette_data = []
@@ -1440,14 +1431,14 @@ def render_about():
             )
 
 
-#                       MAIN — SIDEBAR + ROUTING
+# MAIN — SIDEBAR + ROUTING
 
-# Charger les données
+# Charge les données
 df_all = load_split_df()
 train_df, val_df, test_df = get_split_dfs(df_all)
 exp_df = load_runs_index(str(EXP_DIR))
 
-# ── Sidebar ─────────────────────────────────────────────────────────
+# Sidebar
 st.sidebar.title("Navigation")
 page = st.sidebar.radio(
     "Page", ["EDA", "Prédiction", "Comparaison", "À propos"],
@@ -1471,7 +1462,7 @@ alpha = st.sidebar.slider("Alpha overlay", 0.0, 1.0, 0.45, 0.05, key="alpha_slid
 # Accessibilité — CSS focus visible toujours actif (WCAG 2.4.7)
 inject_wcag_css()
 
-# Toggle pour le mode accessibilité complet
+# Toggle pour le mode accessibilité
 accessible_mode = st.sidebar.checkbox(
     "♿ Mode accessible (WCAG)",
     value=False, key="wcag_toggle",
@@ -1493,7 +1484,7 @@ st.sidebar.caption(
 )
 st.sidebar.caption(f"Runs détectés: {len(exp_df)}")
 
-# ── Routing ─────────────────────────────────────────────────────────
+# Routing
 if page == "EDA":
     render_eda(train_df, val_df, test_df, size_hw, alpha)
 elif page == "Prédiction":

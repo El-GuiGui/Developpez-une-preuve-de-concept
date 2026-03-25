@@ -6,7 +6,7 @@ Usage (via la racine du proj):
     python precompute_eda.py
 
 Produit :
-    app_dashboard/eda_cache/stats.json       — stats calculées sur TOUT le dataset
+    app_dashboard/eda_cache/stats.json       — stats calculées sur le dataset
     app_dashboard/eda_cache/samples/          — ~30 images+masques redimensionnés
 """
 
@@ -109,7 +109,7 @@ def main():
 
     print(f"Train: {len(train_df)} | Val: {len(val_df)} | Test: {len(test_df)}")
 
-    # Créer les dossiers
+    # Créé les dossiers
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
 
